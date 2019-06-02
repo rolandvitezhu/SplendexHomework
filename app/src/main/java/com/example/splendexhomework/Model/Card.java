@@ -53,9 +53,4 @@ public class Card {
   public int getId() {
     return id;
   }
-
-//  @Override
-//  public boolean equals(Object obj) {
-//    return (((Button)obj).getId()) == (button.getId());
-//  }
 }

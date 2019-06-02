@@ -25,9 +25,11 @@ public class MainActivity extends AppCompatActivity {
 
   private int numberOfPairs = 10;
   private int tryCount = 0;
+  private int topScore = 0;
 
   private GridLayout gridLayout;
   private TextView tvTryCount;
+  private TextView tvTopScore;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     gridLayout = findViewById(R.id.glDeck);
     tvTryCount = findViewById(R.id.tvTryCount);
+    tvTopScore = findViewById(R.id.tvTopScore);
 
     init();
   }
@@ -104,11 +107,15 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void removeFlippedCards() {
-    for (Card item : flippedCards) {
-      gridLayout.removeView(item.getButton());
+    for (Card card : flippedCards) {
+      cards.remove(card);
+      gridLayout.removeView(card.getButton());
     }
 
     flippedCards.clear();
+
+    if (cards.size() < 1)
+      updateTopScore();
   }
 
   private void flipDown(Button v, int index) {
@@ -176,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
     addCardNumbers();
     addCards();
     setTryCount();
+    setTopScore();
   }
 
   private void init(int numberOfPairs) {
@@ -240,17 +248,30 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void setTryCount() {
-    if (tvTryCount != null) {
-      String strTryCount = getString(R.string.count_of_tries)
-          .concat(" ")
-          .concat(Integer.toString(tryCount));
+    if (tvTryCount != null)
+      tvTryCount.setText(getNumberText(R.string.count_of_tries, tryCount));
+  }
 
-      tvTryCount.setText(strTryCount);
-    }
+  private void setTopScore() {
+    if (tvTopScore != null)
+      tvTopScore.setText(getNumberText(R.string.top_score, topScore));
   }
 
   private void incrementTryCount() {
     tryCount++;
     setTryCount();
+  }
+
+  private String getNumberText(int prefixId, int number) {
+    String prefix = getString(prefixId);
+
+    return prefix.concat(" ").concat(Integer.toString(number));
+  }
+
+  private void updateTopScore() {
+    if (topScore == 0 || tryCount < topScore) {
+      topScore = tryCount;
+      setTopScore();
+    }
   }
 }
