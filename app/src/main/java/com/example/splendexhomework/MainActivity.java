@@ -1,9 +1,11 @@
 package com.example.splendexhomework;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -79,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void onClickCard(View v) {
+    flipCard(v);
+
     if (flippedCards == null)
       flippedCards = new ArrayList<>();
 
@@ -104,6 +108,13 @@ public class MainActivity extends AppCompatActivity {
         flip((Button) v, index);
       }
     }
+  }
+
+  private void flipCard(View v) {
+    AnimatorSet set = (AnimatorSet) AnimatorInflater.
+        loadAnimator(this, R.animator.card_flip_left_in);
+    set.setTarget(v);
+    set.start();
   }
 
   private void removeFlippedCards() {
@@ -153,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
     int numberToGetIndex = 0;
 
     for (int i = 0; i < numbers.size()*2; i++) {
-      int number = numbers.get(numberToGetIndex);
       Button btCard = new Button(this);
 
       btCard.setOnClickListener(new View.OnClickListener() {
