@@ -15,6 +15,7 @@ public class Card {
     this.y = y;
     this.number = number;
     this.button = button;
+    this.id = id;
   }
 
   public int getX() {
@@ -53,8 +54,8 @@ public class Card {
     return id;
   }
 
-  @Override
-  public boolean equals(Object obj) {
-    return (((Button)obj).getId()) == (button.getId());
-  }
+//  @Override
+//  public boolean equals(Object obj) {
+//    return (((Button)obj).getId()) == (button.getId());
+//  }
 }

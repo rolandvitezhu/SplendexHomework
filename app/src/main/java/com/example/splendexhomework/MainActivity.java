@@ -17,12 +17,14 @@ public class MainActivity extends AppCompatActivity {
   private ArrayList<Card> cards;
   private ArrayList<Card> flippedCards;
 
+  private GridLayout gridLayout;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    final GridLayout gridLayout = findViewById(R.id.glDeck);
+    gridLayout = findViewById(R.id.glDeck);
 
     if (numbers == null)
       numbers = new ArrayList<>();
@@ -47,74 +49,11 @@ public class MainActivity extends AppCompatActivity {
       btCard.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          // Check match
-          if (flippedCards == null)
-            flippedCards = new ArrayList<>();
-
-          int index = getCardIndex((Button)v);
-
-          if (flippedCards.size() > 1)
-          {
-            // Do nothing
-          } else if (flippedCards.size() < 1) {
-
-            // Add card
-            flippedCards.add(cards.get(index));
-
-            // Flip
-            if (((Button)v).getText().equals("")) {
-              String text = Integer.toString(cards.get(index).getNumber());
-
-              ((Button)v).setText(text);
-            } else
-              ((Button)v).setText("");
-          } else if (flippedCards.size() == 1) {
-            // Not the same card
-            if ((flippedCards.get(0).getId() == cards.get(index).getId())) {
-              // Add card and check match
-              flippedCards.add(cards.get(index));
-
-              // Flip
-              if (((Button)v).getText().equals("")) {
-                String text = Integer.toString(cards.get(index).getNumber());
-
-                ((Button)v).setText(text);
-              } else
-                ((Button)v).setText("");
-
-              // Remove cards if match
-              if (flippedCards.get(0).getNumber() == flippedCards.get(1).getNumber()) {
-                for (Card item : flippedCards) {
-                  gridLayout.removeView(item.getButton());
-                }
-
-                flippedCards.clear();
-              } else {
-                // Flip
-                for (Card card : flippedCards) {
-                  String text = Integer.toString(card.getNumber());
-
-                  card.getButton().setText(text);
-                }
-              }
-            } else {
-              // Flip
-              if (((Button)v).getText().equals("")) {
-                String text = Integer.toString(cards.get(index).getNumber());
-
-                ((Button)v).setText(text);
-              } else
-                ((Button)v).setText("");
-
-//              flippedCards.clear();
-            }
-          }
-
-          //          v.setBackgroundColor(Color.RED);
+          onClickCard(v);
         }
       });
 
-      btCard.setText(Integer.toString(number));
+//      btCard.setText(Integer.toString(number));
 
       cards.add(new Card(0, 0, numbers.get(numberToGetIndex), btCard, i));
 
@@ -140,5 +79,88 @@ public class MainActivity extends AppCompatActivity {
     }
 
     return -1;
+  }
+
+  private void onClickCard(View v) {
+    // Check match
+    if (flippedCards == null)
+      flippedCards = new ArrayList<>();
+
+    int index = getCardIndex((Button)v);
+
+    if (flippedCards.size() > 1)
+    {
+      if (!((Button)v).getText().equals("")) {
+        ((Button)v).setText("");
+        // Remove card
+        flippedCards.remove(cards.get(index));
+      }
+    } else if (flippedCards.size() < 1) {
+
+      // Flip
+      if (((Button)v).getText().equals("")) {
+        String text = Integer.toString(cards.get(index).getNumber());
+
+        ((Button)v).setText(text);
+        // Add card
+        flippedCards.add(cards.get(index));
+      } else {
+        ((Button)v).setText("");
+        // Remove card
+        flippedCards.remove(cards.get(index));
+      }
+    } else if (flippedCards.size() == 1) {
+      // Not the same card
+      if (!(flippedCards.get(0).getId() == cards.get(index).getId())) {
+
+        // Flip
+        if (((Button)v).getText().equals("")) {
+          String text = Integer.toString(cards.get(index).getNumber());
+
+          ((Button)v).setText(text);
+          // Add card
+          flippedCards.add(cards.get(index));
+        } else {
+          ((Button)v).setText("");
+          // Remove card
+          flippedCards.remove(cards.get(index));
+        }
+
+        // Remove cards if match
+        if (flippedCards.size() > 0 && flippedCards.get(0).getNumber() == flippedCards.get(1).getNumber()) {
+          for (Card item : flippedCards) {
+            gridLayout.removeView(item.getButton());
+          }
+
+          flippedCards.clear();
+        } /*else {*/
+//          // Flip
+//          for (Card card : flippedCards) {
+//            String text = Integer.toString(card.getNumber());
+
+//            // Add card
+//            flippedCards.add(cards.get(index));
+//            card.getButton().setText(text);
+//          }
+//        }
+      } else {
+        // Flip
+        if (((Button)v).getText().equals("")) {
+          String text = Integer.toString(cards.get(index).getNumber());
+
+          // Add card
+          flippedCards.add(cards.get(index));
+          ((Button)v).setText(text);
+        } else {
+          ((Button)v).setText("");
+          // Remove card
+          flippedCards.remove(cards.get(index));
+        }
+
+//              flippedCards.clear();
+      }
+    }
+
+    //          v.setBackgroundColor(Color.RED);
   }
 }
