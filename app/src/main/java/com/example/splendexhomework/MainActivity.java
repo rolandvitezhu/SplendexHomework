@@ -50,64 +50,48 @@ public class MainActivity extends AppCompatActivity {
 
     if (flippedCards.size() > 1)
     {
-      if (!((Button)v).getText().equals("")) {
-        ((Button)v).setText("");
-        // Remove card
-        flippedCards.remove(cards.get(index));
-      }
+      flipDown((Button) v, index);
     } else if (flippedCards.size() < 1) {
-
-      // Flip
-      if (((Button)v).getText().equals("")) {
-        String text = Integer.toString(cards.get(index).getNumber());
-
-        ((Button)v).setText(text);
-        // Add card
-        flippedCards.add(cards.get(index));
-      } else {
-        ((Button)v).setText("");
-        // Remove card
-        flippedCards.remove(cards.get(index));
-      }
+      flip((Button) v, index);
     } else if (flippedCards.size() == 1) {
       // Not the same card
       if (!(flippedCards.get(0).getId() == cards.get(index).getId())) {
-
-        // Flip
-        if (((Button)v).getText().equals("")) {
-          String text = Integer.toString(cards.get(index).getNumber());
-
-          ((Button)v).setText(text);
-          // Add card
-          flippedCards.add(cards.get(index));
-        } else {
-          ((Button)v).setText("");
-          // Remove card
-          flippedCards.remove(cards.get(index));
-        }
+        flip((Button) v, index);
 
         // Remove cards if match
         if (flippedCards.size() > 0 && flippedCards.get(0).getNumber() == flippedCards.get(1).getNumber()) {
-          for (Card item : flippedCards) {
-            gridLayout.removeView(item.getButton());
-          }
-
-          flippedCards.clear();
+          removeFlippedCards();
         }
       } else {
-        // Flip
-        if (((Button)v).getText().equals("")) {
-          String text = Integer.toString(cards.get(index).getNumber());
-
-          // Add card
-          flippedCards.add(cards.get(index));
-          ((Button)v).setText(text);
-        } else {
-          ((Button)v).setText("");
-          // Remove card
-          flippedCards.remove(cards.get(index));
-        }
+        flip((Button) v, index);
       }
+    }
+  }
+
+  private void removeFlippedCards() {
+    for (Card item : flippedCards) {
+      gridLayout.removeView(item.getButton());
+    }
+
+    flippedCards.clear();
+  }
+
+  private void flipDown(Button v, int index) {
+    if (!v.getText().equals("")) {
+      v.setText("");
+      flippedCards.remove(cards.get(index));
+    }
+  }
+
+  private void flip(Button v, int index) {
+    if (v.getText().equals("")) {
+      String text = Integer.toString(cards.get(index).getNumber());
+
+      v.setText(text);
+      flippedCards.add(cards.get(index));
+    } else {
+      v.setText("");
+      flippedCards.remove(cards.get(index));
     }
   }
 
