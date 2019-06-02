@@ -26,48 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     gridLayout = findViewById(R.id.glDeck);
 
-    if (numbers == null)
-      numbers = new ArrayList<>();
-
-    // TODO:
-    // 1. Gen model
-    // 2. Add elements from model
-    // 3. Show/hide text as needed
-    for (int i = 1; i < 11; i++) {
-      numbers.add(i);
-    }
-
-    if (cards == null)
-      cards = new ArrayList<>();
-
-    int numberToGetIndex = 0;
-
-    for (int i = 0; i < numbers.size()*2; i++) {
-      int number = numbers.get(numberToGetIndex);
-      Button btCard = new Button(this);
-
-      btCard.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          onClickCard(v);
-        }
-      });
-
-//      btCard.setText(Integer.toString(number));
-
-      cards.add(new Card(0, 0, numbers.get(numberToGetIndex), btCard, i));
-
-      if (numberToGetIndex == numbers.size()-1)
-        numberToGetIndex = 0;
-      else
-        numberToGetIndex++;
-
-      Collections.shuffle(cards);
-    }
-
-    for (Card card : cards) {
-      gridLayout.addView(card.getButton());
-    }
+    addCardNumbers();
+    addCards();
   }
 
   private int getCardIndex(Button button) {
@@ -133,16 +93,7 @@ public class MainActivity extends AppCompatActivity {
           }
 
           flippedCards.clear();
-        } /*else {*/
-//          // Flip
-//          for (Card card : flippedCards) {
-//            String text = Integer.toString(card.getNumber());
-
-//            // Add card
-//            flippedCards.add(cards.get(index));
-//            card.getButton().setText(text);
-//          }
-//        }
+        }
       } else {
         // Flip
         if (((Button)v).getText().equals("")) {
@@ -156,11 +107,48 @@ public class MainActivity extends AppCompatActivity {
           // Remove card
           flippedCards.remove(cards.get(index));
         }
-
-//              flippedCards.clear();
       }
     }
+  }
 
-    //          v.setBackgroundColor(Color.RED);
+  private void addCardNumbers() {
+    if (numbers == null)
+      numbers = new ArrayList<>();
+
+    for (int i = 1; i < 11; i++) {
+      numbers.add(i);
+    }
+  }
+
+  private void addCards() {
+    if (cards == null)
+      cards = new ArrayList<>();
+
+    int numberToGetIndex = 0;
+
+    for (int i = 0; i < numbers.size()*2; i++) {
+      int number = numbers.get(numberToGetIndex);
+      Button btCard = new Button(this);
+
+      btCard.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          onClickCard(v);
+        }
+      });
+
+      cards.add(new Card(0, 0, numbers.get(numberToGetIndex), btCard, i));
+
+      if (numberToGetIndex == numbers.size()-1)
+        numberToGetIndex = 0;
+      else
+        numberToGetIndex++;
+
+      Collections.shuffle(cards);
+    }
+
+    for (Card card : cards) {
+      gridLayout.addView(card.getButton());
+    }
   }
 }
