@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void onClickCard(View v) {
-    // Check match
     if (flippedCards == null)
       flippedCards = new ArrayList<>();
 
