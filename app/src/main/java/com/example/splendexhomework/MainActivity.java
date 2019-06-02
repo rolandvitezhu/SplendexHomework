@@ -1,5 +1,7 @@
 package com.example.splendexhomework;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
   private ArrayList<Integer> numbers;
   private ArrayList<Card> cards;
   private ArrayList<Card> flippedCards;
+
+  private int numberOfPairs = 10;
 
   private GridLayout gridLayout;
 
@@ -48,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     switch (menuItemId) {
       case R.id.menuitem_restart:
         reinit();
+        break;
+      case R.id.menuitem_set_deck_size:
+        setDeckSize();
         break;
     }
 
@@ -122,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
     if (numbers == null)
       numbers = new ArrayList<>();
 
-    for (int i = 1; i < 11; i++) {
+    for (int i = 1; i < numberOfPairs+1; i++) {
       numbers.add(i);
     }
   }
@@ -165,10 +172,62 @@ public class MainActivity extends AppCompatActivity {
     addCards();
   }
 
+  private void reinit(int numberOfPairs) {
+    this.numberOfPairs = numberOfPairs;
+    reinit();
+  }
+
   private void clearDeck() {
-    numbers.clear();
-    cards.clear();
-    flippedCards.clear();
-    gridLayout.removeAllViews();
+    if (numbers != null)
+      numbers.clear();
+    if (cards != null)
+      cards.clear();
+    if (flippedCards != null)
+      flippedCards.clear();
+    if (gridLayout != null)
+      gridLayout.removeAllViews();
+  }
+
+  private void setDeckSize() {
+    AlertDialog.Builder b = new AlertDialog.Builder(this);
+    b.setTitle(R.string.set_deck_size);
+    String[] options = {"3 x 2", "4 x 2", "5 x 2", "6 x 2", "7 x 2", "8 x 2", "9 x 2", "10 x 2"};
+    b.setItems(options, new DialogInterface.OnClickListener() {
+
+      @Override
+      public void onClick(DialogInterface dialog, int index) {
+
+        dialog.dismiss();
+        switch(index){
+          case 0:
+            reinit(3);
+            break;
+          case 1:
+            reinit(4);
+            break;
+          case 2:
+            reinit(5);
+            break;
+          case 3:
+            reinit(6);
+            break;
+          case 4:
+            reinit(7);
+            break;
+          case 5:
+            reinit(8);
+            break;
+          case 6:
+            reinit(9);
+            break;
+          case 7:
+            reinit(10);
+            break;
+        }
+      }
+
+    });
+
+    b.show();
   }
 }

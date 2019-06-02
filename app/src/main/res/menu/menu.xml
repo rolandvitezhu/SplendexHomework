@@ -6,5 +6,9 @@
         android:id="@+id/menuitem_restart"
         android:title="@string/restart"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/menuitem_set_deck_size"
+        android:title="@string/set_deck_size"
+        app:showAsAction="never"/>
 
 </menu>
