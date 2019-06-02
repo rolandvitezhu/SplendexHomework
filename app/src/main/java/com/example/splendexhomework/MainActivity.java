@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
 
 import com.example.splendexhomework.Model.Card;
 
@@ -23,8 +24,10 @@ public class MainActivity extends AppCompatActivity {
   private ArrayList<Card> flippedCards;
 
   private int numberOfPairs = 10;
+  private int tryCount = 0;
 
   private GridLayout gridLayout;
+  private TextView tvTryCount;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
 
     gridLayout = findViewById(R.id.glDeck);
+    tvTryCount = findViewById(R.id.tvTryCount);
 
-    addCardNumbers();
-    addCards();
+    init();
   }
 
   @Override
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     switch (menuItemId) {
       case R.id.menuitem_restart:
-        reinit();
+        init();
         break;
       case R.id.menuitem_set_deck_size:
         setDeckSize();
@@ -91,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
         // Remove cards if match
         if (flippedCards.size() > 0 && flippedCards.get(0).getNumber() == flippedCards.get(1).getNumber()) {
           removeFlippedCards();
+        } else {
+          incrementTryCount();
         }
       } else {
         flip((Button) v, index);
@@ -166,15 +171,16 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  private void reinit() {
+  private void init() {
     clearDeck();
     addCardNumbers();
     addCards();
+    setTryCount();
   }
 
-  private void reinit(int numberOfPairs) {
+  private void init(int numberOfPairs) {
     this.numberOfPairs = numberOfPairs;
-    reinit();
+    init();
   }
 
   private void clearDeck() {
@@ -184,6 +190,8 @@ public class MainActivity extends AppCompatActivity {
       cards.clear();
     if (flippedCards != null)
       flippedCards.clear();
+    tryCount = 0;
+    setTryCount();
     if (gridLayout != null)
       gridLayout.removeAllViews();
   }
@@ -200,28 +208,28 @@ public class MainActivity extends AppCompatActivity {
         dialog.dismiss();
         switch(index){
           case 0:
-            reinit(3);
+            init(3);
             break;
           case 1:
-            reinit(4);
+            init(4);
             break;
           case 2:
-            reinit(5);
+            init(5);
             break;
           case 3:
-            reinit(6);
+            init(6);
             break;
           case 4:
-            reinit(7);
+            init(7);
             break;
           case 5:
-            reinit(8);
+            init(8);
             break;
           case 6:
-            reinit(9);
+            init(9);
             break;
           case 7:
-            reinit(10);
+            init(10);
             break;
         }
       }
@@ -229,5 +237,20 @@ public class MainActivity extends AppCompatActivity {
     });
 
     b.show();
+  }
+
+  private void setTryCount() {
+    if (tvTryCount != null) {
+      String strTryCount = getString(R.string.count_of_tries)
+          .concat(" ")
+          .concat(Integer.toString(tryCount));
+
+      tvTryCount.setText(strTryCount);
+    }
+  }
+
+  private void incrementTryCount() {
+    tryCount++;
+    setTryCount();
   }
 }

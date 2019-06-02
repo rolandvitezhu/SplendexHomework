@@ -2,4 +2,5 @@
     <string name="app_name">SplendexHomework</string>
     <string name="restart">Restart</string>
     <string name="set_deck_size">Set deck size</string>
+    <string name="count_of_tries">Count of tries:</string>
 </resources>
