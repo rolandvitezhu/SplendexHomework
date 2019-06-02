@@ -2,6 +2,9 @@ package com.example.splendexhomework;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -28,6 +31,27 @@ public class MainActivity extends AppCompatActivity {
 
     addCardNumbers();
     addCards();
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.menu, menu);
+
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    int menuItemId = item.getItemId();
+
+    switch (menuItemId) {
+      case R.id.menuitem_restart:
+        reinit();
+        break;
+    }
+
+    return super.onOptionsItemSelected(item);
   }
 
   private int getCardIndex(Button button) {
@@ -133,5 +157,18 @@ public class MainActivity extends AppCompatActivity {
     for (Card card : cards) {
       gridLayout.addView(card.getButton());
     }
+  }
+
+  private void reinit() {
+    clearDeck();
+    addCardNumbers();
+    addCards();
+  }
+
+  private void clearDeck() {
+    numbers.clear();
+    cards.clear();
+    flippedCards.clear();
+    gridLayout.removeAllViews();
   }
 }
