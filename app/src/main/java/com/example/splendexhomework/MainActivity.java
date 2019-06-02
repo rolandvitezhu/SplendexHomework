@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         }
       });
 
-      cards.add(new Card(0, 0, numbers.get(numberToGetIndex), btCard, i));
+      cards.add(new Card(numbers.get(numberToGetIndex), btCard, i));
 
       if (numberToGetIndex == numbers.size()-1)
         numberToGetIndex = 0;
